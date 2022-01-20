@@ -1,9 +1,13 @@
-import cryptography
+
 import base64
-from cryptography.hazmat.primitives import hashes
+
 import hashlib
 from Crypto import Random
 from Crypto.Cipher import AES, DES
+import Crypto
+from Crypto.PublicKey import RSA
+from Crypto import Random
+import ast
 
 class Phase3:
 
@@ -35,7 +39,7 @@ class Phase3:
                 yield (i)
 
     def craquagehash(self,hashmessage:str):
-        print("choisir craq method:")
+        print("choisir craq method: ")
         print("1-md5")
         print("2-sha1")
         print("3-sha256")
@@ -104,4 +108,7 @@ class Phase3:
             return self.dechiffrementaes(message)
         else:
             return self.dechiffrementdes(message)
-        
+
+
+
+    

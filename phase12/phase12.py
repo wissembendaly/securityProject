@@ -9,7 +9,7 @@ from phase12.User import User
 
 class Phase12:
     
-    db_connector= None   
+    dbConnector= None   
 
     def __init__(self):
         self.dbConnector= DbConnector()
@@ -64,14 +64,39 @@ class Phase12:
         else:
             raise Exception("This user already exists please try another user")
 
+    def deletekey(self,id:int):
+        query = """delete from publickeys where  userid = %s """
+        self.dbConnector.cursor.execute(query,[id])
+        self.dbConnector.connection.commit()
+
+    def addpubkey(self,id:int,pubkey:str):
+        self.deletekey(id)
+        query = """INSERT INTO publickeys (userid,pubkey) 
+                                VALUES 
+                                (%s, %s) """
+
+        print([id,pubkey])
+        self.dbConnector.cursor.execute(query,[id,pubkey])
+        self.dbConnector.connection.commit()
+        
+
+    def getuser(self, email:str):
+        query = "SELECT * FROM user where email = %s "
+        self.dbConnector.cursor.execute(query,[email])
+        user1 = self.dbConnector.cursor.fetchone()
+        user= User(user1)
+        return user
+        
 
     def registrate(self, email:str,password:str):
         query = "SELECT * FROM user where email = %s "
         self.dbConnector.cursor.execute(query,[email])
-        user = self.dbConnector.cursor.fetchone()
-        user1=User(user)
-        matched = bcrypt.checkpw(password.encode(), user1.password.encode())
+        user1 = self.dbConnector.cursor.fetchone()
+        user=User(user1)
+        matched = bcrypt.checkpw(password.encode(), user.password.encode())
         if (matched):
+            pubkey=user.generatekeys()
+            self.addpubkey(user.id,str(pubkey))
             return user
         else:
             return None
@@ -88,4 +113,7 @@ class Phase12:
         nom,prenom = self.getNomPrenom(email)
         user = User((None,nom,prenom,email,password))
         self.addUser(user)
+        fetcheduser= self.getuser(user.email)
+        pubkey= fetcheduser.generatekeys()
+        self.addpubkey(fetcheduser.id,str(pubkey))
         return user
