@@ -1,4 +1,4 @@
-from os import remove
+from cryptography.hazmat.primitives import serialization
 import socket
 import rsa
 import threading
@@ -19,19 +19,16 @@ class Server:
 
 
     def getpublickey(self,id):
-        query="select pubkey from publickeys where userid= %s"    
-        self.dbconnector.cursor.execute(query,[id])
-        k=self.dbconnector.cursor.fetchone()
-        print(k)
-        print(type(k))
-        data = rsa.key.PublicKey.load_pkcs1(self.dbconnector.cursor.fetchone())
-        #data = rsa.key.PublicKey(self.dbconnector.cursor.fetchone())
-        print(type(data))
-        return data
+        query = "select pubkey from publickeys where userid= %s"
+        self.dbconnector.cursor.execute(query, [id])
+        (k,) = self.dbconnector.cursor.fetchone()
+        byted_k = bytes(k, encoding="utf-8")
+        #data = serialization.load_pem_public_key(byted_k)
+        return byted_k
 
     def broadcast(self,msg:str):
-        for _,data in self.active_users.items:
-            data[0].send(msg.encode())
+        for id in self.active_users:
+            self.active_users[id][0].send(msg.encode())
         print(msg)
 
 
@@ -44,12 +41,17 @@ class Server:
         return username
 
     def sendlistusers(self):
-        userslist= json.dumps({"content":"updatelisteusers","data":{user:self.active_users[user][1] for user in self.active_users}})
+        dumped_date = {
+            "content": "updatelisteusers",
+            "data": {user: self.active_users[user][1] for user in self.active_users}
+        }
+        print(dumped_date)
+        userslist = json.dumps(dumped_date)
         for user in self.active_users:
             self.active_users[user][0].send(userslist.encode())
 
     def start_server(self):        
-        self.s = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+        self.s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         print("server started ")
         self.clients = []
         self.s.bind((self.host, self.port))
