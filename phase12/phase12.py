@@ -3,7 +3,7 @@ from getpass import getpass
 import bcrypt
 
 from phase12.dbConnector import DbConnector
-
+from phase12.mailsender import Emailsender
 from phase12.User import User
 
 
@@ -87,6 +87,16 @@ class Phase12:
         user= User(user1)
         return user
         
+    def doubleauthentification(self,email):
+        number=0
+        emailsender=Emailsender()
+        validationcode=emailsender.generaterandomnumber()
+        emailsender.sendemail(email,validationcode)
+        while not(number==validationcode):
+            number=input("please enter the code we emailed you :")
+
+
+
 
     def registrate(self, email:str,password:str):
         query = "SELECT * FROM user where email = %s "
@@ -97,6 +107,7 @@ class Phase12:
         if (matched):
             pubkey=user.generatekeys()
             self.addpubkey(user.id,str(pubkey))
+            self.doubleauthentification(user.email)
             return user
         else:
             return None
@@ -116,4 +127,8 @@ class Phase12:
         fetcheduser= self.getuser(user.email)
         pubkey= fetcheduser.generatekeys()
         self.addpubkey(fetcheduser.id,str(pubkey))
-        return user
+        self.doubleauthentification(fetcheduser.email)
+        return fetcheduser
+
+
+    
