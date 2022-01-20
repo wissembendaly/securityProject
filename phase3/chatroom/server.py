@@ -18,16 +18,20 @@ class Server:
         self.dbconnector:DbConnector = part1.dbConnector
 
 
-    def getpublickey(self,id:int):
+    def getpublickey(self,id):
         query="select pubkey from publickeys where userid= %s"    
         self.dbconnector.cursor.execute(query,[id])
-        data = rsa.key.PublicKey(self.dbconnector.cursor.fetchone())
+        k=self.dbconnector.cursor.fetchone()
+        print(k)
+        print(type(k))
+        data = rsa.key.PublicKey.load_pkcs1(self.dbconnector.cursor.fetchone())
+        #data = rsa.key.PublicKey(self.dbconnector.cursor.fetchone())
         print(type(data))
         return data
 
     def broadcast(self,msg:str):
         for _,data in self.active_users.items:
-            data[0].send(msg).encode()
+            data[0].send(msg.encode())
         print(msg)
 
 
@@ -40,24 +44,22 @@ class Server:
         return username
 
     def sendlistusers(self):
-        userslist= json.dump({"content":"updatelisteusers","data":{user:self.active_users[user][1] for user in self.active_users}})
+        userslist= json.dumps({"content":"updatelisteusers","data":{user:self.active_users[user][1] for user in self.active_users}})
         for user in self.active_users:
-            self.active_users[user][0].send(userslist)
+            self.active_users[user][0].send(userslist.encode())
 
     def start_server(self):        
         self.s = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+        print("server started ")
         self.clients = []
         self.s.bind((self.host, self.port))
         self.s.listen(100)
+        print("server listening on port: ",self.port)
         while (True):
             connexion, addr = self.s.accept()
-            thread=threading.Thread(target=self.listentoclient,args=(connexion))       
+            thread=threading.Thread(target=self.listentoclient,args=(connexion,))       
             thread.start()
 
-            # client_pub_key = self.send_pub_key(c)   # Exchange the public key with the client
-            # encrypted_secret = self.encrypt_secret(client_pub_key, secret_key)  # Encrypt the secret with the client public key
-            # self.send_secret(c, encrypted_secret)   # send the encrypted secret to the client  
-            # target=self.handle_client,args=(c,addr,)
     
     def disconnect(self,username):
         del(self.active_users[username])
@@ -65,8 +67,8 @@ class Server:
         self.sendlistusers()
 
     def sendmessage(self,sender,receiver,message):
-        content=json.dumps({"sender":sender,"message":message})
-        self.active_users[receiver][0].send(content)
+        content=json.dumps({"content":"message","data":{"sender":sender,"message":message}})
+        self.active_users[receiver][0].send(content.encode())
 
     def listentoclient(self,connexion):
         username=self.inituser(connexion)

@@ -1,6 +1,8 @@
 from phase12.User import User
 from phase12.phase12 import Phase12
 #from phase3.phase3 import Phase3
+from phase3.chatroom.client import Client
+
 
 if __name__ == '__main__' :
     user : User= None
@@ -29,7 +31,8 @@ if __name__ == '__main__' :
                 print("option no valide\n")
         else:
             print("phase3\n")
-            break
+            client=Client(400,user)
+            client.startclient()
     
     # encode decode
     # encoded=phase3.encode("hello world")
