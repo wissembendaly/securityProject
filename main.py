@@ -12,12 +12,12 @@ if __name__ == '__main__':
     phase3 = Phase3()
     rsa_tool = Rsa()
     elgamal_tool = Elgamal()
-    power = 0
+    power: int = 0
     while True:
         if not user:
-            print("choisir un option:\n")
-            print("1- créer un compte \n")
-            print("2- se connecter\n")
+            print("Chose An option:")
+            print("1- Create Account")
+            print("2- Login to an Existing account")
             x = int(input())
             if x == 1:
                 user = phase12.signup()
@@ -111,14 +111,16 @@ if __name__ == '__main__':
                     rsa_tool.decrypt(message)
                 elif option4 == 3:
                     message = input("message : ")
-                    _, power = elgamal_tool.encrypt(message)
+                    encrypted, power = elgamal_tool.encrypt(message)
+                    print("encryption: ", encrypted)
                 elif option4 == 4:
-                    nomber_chars = int(input("nomber of characters : "))
+                    number_chars = int(input("nomber of characters : "))
                     ct = []
-                    for i in range(nomber_chars):
-                        char = input("char = ")
+                    for i in range(number_chars):
+                        char = int(input("char = "))
                         ct.append(char)
-                    elgamal_tool.decrypt(ct, str(power))
+                    message = elgamal_tool.decrypt(ct, power)
+                    print("Message = ", message)
                 else:
                     print("INVALID OPTION")
             elif option == 5:

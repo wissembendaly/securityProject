@@ -19,6 +19,5 @@ class Rsa:
     def decrypt(self, path: str):
         f = open(path, "rb")
         encryptedmessage = f.read()
-        print(encryptedmessage)
         message = rsa.decrypt(encryptedmessage, self.privkey)
         print(message)

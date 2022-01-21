@@ -3,14 +3,18 @@
   <component name="ChangeListManager">
     <list default="true" id="a7b370ea-e642-481a-b988-e00e37083b06" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/output.txt" beforeDir="false" afterPath="$PROJECT_DIR$/output.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/output.txt" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/phase12/User.py" beforeDir="false" afterPath="$PROJECT_DIR$/phase12/User.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/phase12/dbConnector.py" beforeDir="false" afterPath="$PROJECT_DIR$/phase12/dbConnector.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/phase12/mailsender.py" beforeDir="false" afterPath="$PROJECT_DIR$/phase12/mailsender.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/phase12/phase12.py" beforeDir="false" afterPath="$PROJECT_DIR$/phase12/phase12.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/phase3/elgamal.py" beforeDir="false" afterPath="$PROJECT_DIR$/phase3/elgamal.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/phase3/phase3.py" beforeDir="false" afterPath="$PROJECT_DIR$/phase3/phase3.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/phase3/rsaalgo.py" beforeDir="false" afterPath="$PROJECT_DIR$/phase3/rsaalgo.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ramzi/priv.key" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/ramzi/pub.key" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/wissem/priv.key" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/wissem/pub.key" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/script.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test.py" beforeDir="false" afterPath="$PROJECT_DIR$/server_starter.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -29,10 +33,32 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/script.py" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/phase3/elgamal.py" />
     <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
   </component>
-  <component name="RunManager" selected="Python.server_start">
+  <component name="RunManager" selected="Python.main">
+    <configuration name="elgamal" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="securityProject" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/phase3" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/phase3/elgamal.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="securityProject" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -55,28 +81,6 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="script" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="securityProject" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/script.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
     <configuration name="server_start" type="PythonConfigurationType" factoryName="Python">
       <module name="securityProject" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -90,7 +94,7 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/test.py" />
+      <option name="SCRIPT_NAME" value="D:\Education\GL4\SEM1\AI\securityProject\server_starter.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -102,12 +106,12 @@
     <list>
       <item itemvalue="Python.server_start" />
       <item itemvalue="Python.main" />
-      <item itemvalue="Python.script" />
+      <item itemvalue="Python.elgamal" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="Python.main" />
-        <item itemvalue="Python.script" />
+        <item itemvalue="Python.elgamal" />
       </list>
     </recent_temporary>
   </component>
@@ -121,7 +125,7 @@
       <updated>1642707495810</updated>
       <workItem from="1642707497027" duration="19404000" />
       <workItem from="1642728125200" duration="41000" />
-      <workItem from="1642763342487" duration="26937000" />
+      <workItem from="1642763342487" duration="29791000" />
     </task>
     <servers />
   </component>
@@ -153,11 +157,11 @@
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/securityProject$rsaalgo.coverage" NAME="el_gamal Coverage Results" MODIFIED="1642780468864" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/phase3" />
-    <SUITE FILE_PATH="coverage/securityProject$main.coverage" NAME="main Coverage Results" MODIFIED="1642791516830" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/securityProject$main.coverage" NAME="main Coverage Results" MODIFIED="1642794516677" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/securityProject$client.coverage" NAME="client Coverage Results" MODIFIED="1642763997552" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/phase3/chatroom" />
-    <SUITE FILE_PATH="coverage/securityProject$elgamal.coverage" NAME="script Coverage Results" MODIFIED="1642787008716" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/securityProject$elgamal.coverage" NAME="elgamal Coverage Results" MODIFIED="1642794147652" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/phase3" />
     <SUITE FILE_PATH="coverage/securityProject$script.coverage" NAME="script Coverage Results" MODIFIED="1642722620599" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/securityProject$server_start.coverage" NAME="server_start Coverage Results" MODIFIED="1642791550996" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/securityProject$server_start.coverage" NAME="server_start Coverage Results" MODIFIED="1642791829532" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/securityProject$User.coverage" NAME="User Coverage Results" MODIFIED="1642712915681" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/phase12" />
   </component>
 </project>

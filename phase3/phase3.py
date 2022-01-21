@@ -89,4 +89,3 @@ class Phase3:
         cipher = Cipher(algorithms.TripleDES(self.key2), modes.CBC(self.iv2))
         decryptor = cipher.decryptor()
         print((decryptor.update(message + (b"" * (16 - (len(message) % 16)))) + decryptor.finalize()).decode())
-#ramzi.latrous@insat.ucar.tn
