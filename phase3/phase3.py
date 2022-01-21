@@ -81,12 +81,12 @@ class Phase3:
         message = file.read()
         cipher = Cipher(algorithms.AES(self.key1), modes.CBC(self.iv))
         decryptor = cipher.decryptor()
-        print((decryptor.update(message + (b"x00" * (32 - (len(message) % 32)))) + decryptor.finalize()))
+        print((decryptor.update(message + (b"" * (32 - (len(message) % 32)))) + decryptor.finalize()).decode())
 
     def dechiffrementdes(self, path: str):
         file = open(path, 'rb')
         message = file.read()
         cipher = Cipher(algorithms.TripleDES(self.key2), modes.CBC(self.iv2))
         decryptor = cipher.decryptor()
-        print((decryptor.update(message + (b"x'00'" * (32 - (len(message) % 32)))) + decryptor.finalize()).hex())
+        print((decryptor.update(message + (b"" * (16 - (len(message) % 16)))) + decryptor.finalize()).decode())
 #ramzi.latrous@insat.ucar.tn

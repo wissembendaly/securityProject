@@ -64,18 +64,18 @@ class Phase12:
         else:
             raise Exception("This user already exists please try another user")
 
-    def deletekey(self,id:int):
-        query = """delete from publickeys where  userid = %s """
-        self.dbConnector.cursor.execute(query,[id])
-        self.dbConnector.connection.commit()
-
-    def addpubkey(self,id:int,pubkey:str):
-        self.deletekey(id)
-        query = """INSERT INTO publickeys (userid,pubkey) 
-                                VALUES 
-                                (%s, %s) """
-        self.dbConnector.cursor.execute(query,[id,pubkey])
-        self.dbConnector.connection.commit()
+    # def deletekey(self,id:int):
+    #     query = """delete from publickeys where  userid = %s """
+    #     self.dbConnector.cursor.execute(query,[id])
+    #     self.dbConnector.connection.commit()
+    #
+    # def addpubkey(self,id:int,pubkey:str):
+    #     self.deletekey(id)
+    #     query = """INSERT INTO publickeys (userid,pubkey)
+    #                             VALUES
+    #                             (%s, %s) """
+    #     self.dbConnector.cursor.execute(query,[id,pubkey])
+    #     self.dbConnector.connection.commit()
         
 
     def getuser(self, email:str):
@@ -100,31 +100,31 @@ class Phase12:
         query = "SELECT * FROM user where email = %s "
         self.dbConnector.cursor.execute(query,[email])
         user1 = self.dbConnector.cursor.fetchone()
-        user=User(user1)
+        user = User(user1)
         matched = bcrypt.checkpw(password.encode(), user.password.encode())
         if (matched):
-            pubkey=user.generatekeys()
-            self.addpubkey(user.id,str(pubkey))
+            # pubkey=user.generatekeys()
+            # self.addpubkey(user.id,str(pubkey))
             self.doubleauthentification(user.email)
             return user
         else:
             return None
 
     def signin(self):
-        email= self.getEmail()
+        email = self.getEmail()
         print("veuillez saisir votre mot de passe: ")
         password = getpass()        
-        return self.registrate(email,password)
+        return self.registrate(email , password)
 
     def signup(self):
         email = self.getEmail()
         password = self.getPassword()
-        nom,prenom = self.getNomPrenom(email)
-        user = User((None,nom,prenom,email,password))
+        nom, prenom = self.getNomPrenom(email)
+        user = User((None, nom, prenom, email, password))
         self.addUser(user)
-        fetcheduser= self.getuser(user.email)
-        pubkey= fetcheduser.generatekeys()
-        self.addpubkey(fetcheduser.id,str(pubkey))
+        fetcheduser = self.getuser(user.email)
+        # pubkey= fetcheduser.generatekeys()
+        # self.addpubkey(fetcheduser.id,str(pubkey))
         self.doubleauthentification(fetcheduser.email)
         return fetcheduser
 
