@@ -66,16 +66,6 @@ class Elgamal:
         pt = self.decryption(ct,p,self.key,self.q)
         msg = ''.join(pt)
         return msg
-
-
-# elgamal = Elgamal()
-# message = input("Enter message:")
-# ct, p = elgamal.encrypt(message)
-# print(type(ct[0]))
-# print(type(p))
-# print("encrypted message :", ct)
-# msg = elgamal.decrypt(ct, p)
-# print("decrypted message: ", msg)
     
 
 

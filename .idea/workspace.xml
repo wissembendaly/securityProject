@@ -2,19 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a7b370ea-e642-481a-b988-e00e37083b06" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/output.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/phase12/User.py" beforeDir="false" afterPath="$PROJECT_DIR$/phase12/User.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/phase12/dbConnector.py" beforeDir="false" afterPath="$PROJECT_DIR$/phase12/dbConnector.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/phase12/mailsender.py" beforeDir="false" afterPath="$PROJECT_DIR$/phase12/mailsender.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/phase12/phase12.py" beforeDir="false" afterPath="$PROJECT_DIR$/phase12/phase12.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/phase3/elgamal.py" beforeDir="false" afterPath="$PROJECT_DIR$/phase3/elgamal.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/phase3/phase3.py" beforeDir="false" afterPath="$PROJECT_DIR$/phase3/phase3.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/phase3/rsaalgo.py" beforeDir="false" afterPath="$PROJECT_DIR$/phase3/rsaalgo.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ramzi/priv.key" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/ramzi/pub.key" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/script.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test.py" beforeDir="false" afterPath="$PROJECT_DIR$/server_starter.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -125,7 +115,8 @@
       <updated>1642707495810</updated>
       <workItem from="1642707497027" duration="19404000" />
       <workItem from="1642728125200" duration="41000" />
-      <workItem from="1642763342487" duration="29791000" />
+      <workItem from="1642763342487" duration="29858000" />
+      <workItem from="1642794818091" duration="32000" />
     </task>
     <servers />
   </component>
