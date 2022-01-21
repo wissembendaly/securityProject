@@ -1,29 +1,24 @@
+import codecs
 
 import rsa
 
 class Rsa:
     def __init__(self):
         (pubkey, privkey) = rsa.newkeys(512)    
-        self.pubkey=pubkey
-        self.privkey=privkey
-# with open('keys/pubkey.pem', 'wb') as f:
-# #     f.write(pubkey.save_pkcs1('PEM'))
-# with open('keys/privkey.pem', 'wb') as f:
-#     f.write(privkey.save_pkcs1('PEM'))
+        self.pubkey = pubkey
+        self.privkey = privkey
 
-    def encrypt(self,message:str):
-        message=message.encode('utf8')
-        encrypted_message=rsa.encrypt(message,self.pubkey)
-        return(encrypted_message)
+    def encrypt(self,message: str):
+        message = message.encode('utf8')
+        encrypted_message = rsa.encrypt(message, self.pubkey)
+        f = open("output.txt", "wb")
+        f.write(encrypted_message)
+        print(encrypted_message)
+        return encrypted_message
 
-    def decrypt(self,encryptedmessage):
-        message=rsa.decrypt(encryptedmessage,self.privkey)
-        return message
-
-if __name__ == '__main__' :
-    rsaalgo = Rsa()
-    message=input("saisir message: ")
-    encrypted_message=rsaalgo.encrypt(message)
-    print("The encrypted message is: ",encrypted_message)
-    msg=rsaalgo.decrypt(encrypted_message)
-    print("The message is: ",msg.decode('utf8'))
+    def decrypt(self, path: str):
+        f = open(path, "rb")
+        encryptedmessage = f.read()
+        print(encryptedmessage)
+        message = rsa.decrypt(encryptedmessage, self.privkey)
+        print(message)

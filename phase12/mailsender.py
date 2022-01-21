@@ -25,23 +25,20 @@ class Emailsender:
         message = EmailMessage()
         message.set_content(body)
         message['Subject'] = subject
-        self.s.send_message(self.emailadress, emailreceiver, message)
+        self.s.send_message(message, self.emailadress, emailreceiver)
         print("Email send to " + emailreceiver)
         
     def generaterandomnumber(self):
-        number = random.randit(1111,9999)
+        number = random.randint(1111, 9999)
         print(number)
         return number
 
     def login(self):
         self.s.ehlo()
-        self.s.starttls() # for security
+        self.s.starttls()# for security
         self.s.ehlo()
         # Authentication
         self.s.login(self.emailadress, self.password)
-        print("login")
-        self.s.quit()
-        print("sent")
 
     def sendemail(self,email:str,validationcode):
         self.login()

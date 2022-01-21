@@ -74,8 +74,6 @@ class Phase12:
         query = """INSERT INTO publickeys (userid,pubkey) 
                                 VALUES 
                                 (%s, %s) """
-
-        print([id,pubkey])
         self.dbConnector.cursor.execute(query,[id,pubkey])
         self.dbConnector.connection.commit()
         
@@ -92,8 +90,8 @@ class Phase12:
         emailsender=Emailsender()
         validationcode=emailsender.generaterandomnumber()
         emailsender.sendemail(email,validationcode)
-        while not(number==validationcode):
-            number=input("please enter the code we emailed you :")
+        while not number == validationcode :
+            number=int(input("please enter the code we emailed you :"))
 
 
 

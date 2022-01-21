@@ -4,8 +4,8 @@ import socket
 
 
 phase12 = Phase12()
-server= Server(400,phase12)
-server.start_server()
+server = Server(('127.0.0.1', 127))
+server.run()
 
 
 

@@ -1,66 +1,111 @@
 import socket
-import rsa
 import json
+import rsa
+import os
 import threading
-
-from phase12.User import User
-from phase12.phase12 import Phase12
-from phase12.dbConnector import DbConnector
+import sys
 
 
 class Client:
-    def __init__(self, port,user:User):
+    DISCONNECT_MESSAGE = "!DISCONNECT"
+    HASH_METOD = "MD5"
 
-        self.host = '127.0.0.1'
-        self.port = port
+    def __init__(self, ADDR, username):
+        self.ADDR = ADDR
+        self.username = username
+        self.client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.active_users = {}
-        self.user=user     
+        self.generate_key()
 
-
-
-    def updatelistusers(self,users):
-        self.active_users=users
-
-    def receivemessages(self):
-        while(True):
-            response =json.loads(self.client.recv(1024).decode())
-            if(response["content"]=="updatelisteusers"):
-                self.updatelistusers(response["data"])
-            else:
-                data=response["data"]
-                encryptedmessage=data["message"]
-                message=rsa.decrypt(encryptedmessage,self.user.privatekey)
-                sender=data["sender"]
-                print("you received: ",message,"from:",sender)
-
-
-    def startclient(self):
-        self.client = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+    def generate_key(self):
         try:
-            self.client.connect((self.host, self.port))
-        except Exception as e:
-            print(e)
-        self.client.send(str(self.user.id).encode())
-        thread= threading.Thread(target=self.receivemessages,args=())
-        thread.start()
-        while(True):
-            message= input("send message: ")
-            if(message=="/disconnect"):
-                self.client.send(message.encode())
-                break
+            with open(f'{self.username}/priv.key', 'rb') as f:
+                priv_file_content = f.read()
+            self.privkey = rsa.PrivateKey.load_pkcs1(priv_file_content)
+        except IOError:
+            os.mkdir(self.username)
+            (self.pubkey, self.privkey) = rsa.newkeys(512)
+            with open(f'{self.username}/pub.key', 'wb') as f:
+                f.write(self.pubkey.save_pkcs1())
+            with open(f'{self.username}/priv.key', 'wb') as f:
+                f.write(self.privkey.save_pkcs1())
+        finally:
+            with open(f'{self.username}/pub.key', 'rb') as f:
+                pub_file_content = f.read()
+            self.pubkey = pub_file_content.decode()
+
+    def digital_signature(self, msg):
+        sign = rsa.sign(msg, self.privkey, self.HASH_METOD)
+        return sign.hex()  # sign
+
+    def verify_sign(self, msg, sign, sender):
+        pubkey_send = rsa.key.PublicKey.load_pkcs1(self.active_users[sender])
+        try:
+            used_hash = rsa.verify(msg, bytes.fromhex(sign), pubkey_send)
+            return True
+        except rsa.VerificationError:
+            return False
+
+    def disconnection(self):
+        data = {"sender": self.username, "receiver": "disconnect", "msg": self.DISCONNECT_MESSAGE}
+        self.client.send(json.dumps(data).encode())
+
+    def send_broadcast(self, msg):
+        for receiver in self.active_users:
+            self.send(receiver, msg)
+
+    def send(self, receiver, msg):
+        pubkey_recv = rsa.key.PublicKey.load_pkcs1(self.active_users[receiver])
+        crypto = rsa.encrypt(msg, pubkey_recv)
+        data = {"sender": self.username, "receiver": receiver, "msg": crypto.hex(), "sign": self.digital_signature(msg)}
+        self.client.send(json.dumps(data).encode())
+
+    def update_users(self, users):
+        del users[self.username]
+        self.active_users = users
+
+    def init_data(self):
+        data = {"username": self.username, "pubkey": self.pubkey}
+        self.client.send(json.dumps(data).encode())
+
+    def listen(self):
+        self.init_data()
+        while True:
+            data = self.client.recv(1024).decode()
+            data = json.loads(data)
+            if "users" in data.keys():
+                self.update_users(data["users"])
             else:
-                print("choose receiver from this list:")
-                for user in self.active_users:
-                    print(user)
-                destination=input()
-                key=self.active_users[destination]
-                encryptedmessage=rsa.encrypt(message,key)
-                data=json.dumps({"destination":destination,"content":encryptedmessage})
-                self.client.send(data.encode())
+                crypto = bytes.fromhex(data["msg"])
+                msg = rsa.decrypt(crypto, self.privkey).decode()
+                if self.verify_sign(msg.encode(), data["sign"], data["sender"]):
+                    print(f"\n[NEW MESSAGE VERIFIED] {data['sender']}: {msg} \nMessage: ", end="")
+                else:
+                    print("[MESSAGE NOT VERIFIED] You received a message not verified \nMessage: ", end="")
 
+    def run(self):
+        try:
+            print(f"[CONNECTION] Starting connection to {self.ADDR}")
+            self.client.connect(self.ADDR)
+            thread = threading.Thread(target=self.listen)
+            thread.start()
+            while True:
+                msg = input("Message: ")
+                if msg == self.DISCONNECT_MESSAGE:
+                    self.disconnection()
+                    break;
+                print(f"\n[ACTIVE USERS] {list(self.active_users.keys()) + ['broadcast']}")
+                receiver = input("Receiver: ")
+                if receiver not in list(self.active_users.keys()) + ["broadcast"]:
+                    print(f"not a valid username")
+                    continue
+                if receiver == "broadcast":
+                    self.send_broadcast(msg.encode())
+                else:
+                    self.send(receiver, msg.encode())
+        except Exception as e:
+            # print(e)
+            pass
 
-
-            # receiver=response["destination"]
-            # message=response["content"]
-#        if response["content"]=="/disconnect":
-       # userslist= json.dump({"content":"updatelisteusers","data":{user:self.active_users[user][1] for user in self.active_users}})
+client = Client(('127.0.0.4', 400), "ramzi")
+client.run()

@@ -1,87 +1,65 @@
-from cryptography.hazmat.primitives import serialization
 import socket
-import rsa
-import threading
 import json
-
-from phase12.User import User
-from phase12.phase12 import Phase12
-from phase12.dbConnector import DbConnector
+import threading
+import sys
+import time
 
 
 class Server:
-    def __init__(self, port,part1:Phase12):
+    def __init__(self, ADDR):
+        self.ADDR = ADDR
+        self.server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.server.bind(ADDR)
+        self.active_users = {}  # {username : [conn, pub_key]}
 
-        self.host = '127.0.0.1'
-        self.port = port
-        self.active_users = {}
-        self.dbconnector:DbConnector = part1.dbConnector
+    def send_list_active_users(self):
+        user_info = {user: self.active_users[user][1] for user in self.active_users}
+        users = {"users": user_info}
+        for user, info in self.active_users.items():
+            info[0].send(json.dumps(users).encode())
 
+    def send_message(self, receiver, msg, sender, sign):
+        data = {"sender": sender, "msg": msg, "sign": sign}
+        conn = self.active_users[receiver][0]
+        conn.send(json.dumps(data).encode())
 
-    def getpublickey(self,id):
-        query = "select pubkey from publickeys where userid= %s"
-        self.dbconnector.cursor.execute(query, [id])
-        (k,) = self.dbconnector.cursor.fetchone()
-        byted_k = bytes(k, encoding="utf-8")
-        #data = serialization.load_pem_public_key(byted_k)
-        return byted_k
+    def disconnect_client(self, username, client):
+        print(f"[DISCONNECTING] {username}")
+        client.send("DISCONNECTING".encode())
+        client.close()
+        del self.active_users[username]
+        self.send_list_active_users()
 
-    def broadcast(self,msg:str):
-        for id in self.active_users:
-            self.active_users[id][0].send(msg.encode())
-        print(msg)
+    def init_data(self, client):
+        data = client.recv(1024).decode()
+        data = json.loads(data)
+        self.active_users[data["username"]] = [client, data["pubkey"]]
+        self.send_list_active_users()
+        return data["username"]
 
-
-    def inituser(self,connexion):
-        print("user connected")    
-        username = connexion.recv(1024).decode() 
-        self.active_users [username] = (connexion,self.getpublickey(username))
-        self.broadcast(' New person joined the room. Username: '+username)
-        self.sendlistusers()
-        return username
-
-    def sendlistusers(self):
-        dumped_date = {
-            "content": "updatelisteusers",
-            "data": {user: self.active_users[user][1] for user in self.active_users}
-        }
-        print(dumped_date)
-        userslist = json.dumps(dumped_date)
-        for user in self.active_users:
-            self.active_users[user][0].send(userslist.encode())
-
-    def start_server(self):        
-        self.s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        print("server started ")
-        self.clients = []
-        self.s.bind((self.host, self.port))
-        self.s.listen(100)
-        print("server listening on port: ",self.port)
-        while (True):
-            connexion, addr = self.s.accept()
-            thread=threading.Thread(target=self.listentoclient,args=(connexion,))       
-            thread.start()
-
-    
-    def disconnect(self,username):
-        del(self.active_users[username])
-        self.broadcast(username," disconnected")
-        self.sendlistusers()
-
-    def sendmessage(self,sender,receiver,message):
-        content=json.dumps({"content":"message","data":{"sender":sender,"message":message}})
-        self.active_users[receiver][0].send(content.encode())
-
-    def listentoclient(self,connexion):
-        username=self.inituser(connexion)
-        while (True):
-            response= json.loads(connexion.recv(1024).decode())
-            if response["content"]=="/disconnect":
-                self.disconnect(username)
-                connexion.close()
+    def listen_client(self, conn, addr):
+        username = self.init_data(conn)
+        while True:
+            msg = conn.recv(1024).decode()
+            data = json.loads(msg)
+            if data["msg"] == "!DISCONNECT":
+                self.disconnect_client(username, conn)
             else:
-                sender=username
-                receiver=response["destination"]
-                message=response["content"]
-                self.sendmessage(sender,receiver,message)
+                print(f"[MESSAGE] {data}")
+                self.send_message(data["receiver"], data["msg"], data["sender"], data["sign"])
 
+    def run(self):
+        print("[STARTING] server is starting...")
+        try:
+            self.server.listen()
+            print(f"[LISTENING] Server is listening on {self.ADDR}")
+            while True:
+                conn, addr = self.server.accept()
+                thread = threading.Thread(target=self.listen_client, args=(conn, addr))
+                thread.start()
+                time.sleep(1)
+                print(f"[ACTIVE CONNECTIONS] {threading.activeCount() - 1}")
+                print(f"[USERS] {list(self.active_users.keys())}")
+        except Exception as e:
+            # print(e)
+            self.server.close()
