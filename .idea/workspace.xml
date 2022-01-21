@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="a7b370ea-e642-481a-b988-e00e37083b06" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/phase3/elgamal.py" beforeDir="false" afterPath="$PROJECT_DIR$/phase3/elgamal.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ramzi/priv.key" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ramzi/pub.key" beforeDir="false" />
-    </list>
+    <list default="true" id="a7b370ea-e642-481a-b988-e00e37083b06" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -116,7 +112,8 @@
       <workItem from="1642707497027" duration="19404000" />
       <workItem from="1642728125200" duration="41000" />
       <workItem from="1642763342487" duration="29858000" />
-      <workItem from="1642794818091" duration="32000" />
+      <workItem from="1642794818091" duration="686000" />
+      <workItem from="1642796699588" duration="978000" />
     </task>
     <servers />
   </component>
